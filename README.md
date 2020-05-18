@@ -48,7 +48,7 @@ python ppm.py start
 
 <p><b>Using a binary:</b></p>
 
-<p>download binary file in: <a href='#'>link</a></p>
+<p>download binary file in: <a href='https://drive.google.com/open?id=1Ho5bUbX5mVmMFhAkTGfbmmsWGfQPZYP6'>link</a></p>
 
 <p>After place the binary in '/home/user/.local/bin'</p>
 
