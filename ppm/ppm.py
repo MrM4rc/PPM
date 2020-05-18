@@ -11,7 +11,7 @@ class Ppm():
 
 		self.system = platform.system()
 
-		self.reserved_words = ['add', 'install', 'init', 'gen']
+		self.reserved_words = ['add', 'install', 'remove', 'init', 'gen']
 
 		# Listing the current directory
 		self.current_directory = os.listdir('.')
@@ -62,10 +62,14 @@ class Ppm():
 			}
 
 			# Save the settings in a file
-			with open('ppm.json', 'w') as f:
-				
-				f.write(json.dumps(self.data, indent=4))
-				f.close()
+			self.save()
+			
+	def save(self):
+
+		with open('ppm.json', 'w') as file:
+
+			file.write(json.dumps(self.data, indent=4))
+			file.close()
 
 	def install(self):
 		'''
@@ -86,7 +90,6 @@ class Ppm():
 		# Run the pip.
 		os.system(to_run)
 
-
 	def gen(self, typ):
 		'''
 			Generate requirements and setup.py files
@@ -102,7 +105,6 @@ class Ppm():
 
 					text += dependencie + '\n'
 
-
 				file.write(text)
 				file.close()
 
@@ -111,27 +113,26 @@ class Ppm():
 			text = '''import setuptools
 
 with open("README.md", "r") as fh:
-    long_description = fh.read()
+	long_description = fh.read()
 
 setuptools.setup(
-    name="$1", # Replace with your own username
-    version="$2",
-    author="$3",
-    author_email="$4",
-    description="$5",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    url="$6",
-    packages=setuptools.find_packages(),
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-    ],
-    python_requires='>=3.6',
+	name="$1", # Replace with your own username
+	version="$2",
+	author="$3",
+	author_email="$4",
+	description="$5",
+	long_description=long_description,
+	long_description_content_type="text/markdown",
+	url="$6",
+	packages=setuptools.find_packages(),
+	classifiers=[
+		"Programming Language :: Python :: 3",
+		"License :: OSI Approved :: MIT License",
+		"Operating System :: OS Independent",
+	],
+	python_requires='>=3.6',
 )
 '''
-
 			with open('setup.py', 'w') as file:
 
 				text = text.replace('$1', self.data['name'])
@@ -143,7 +144,6 @@ setuptools.setup(
 
 				file.write(text)
 				file.close()
-
 
 	def add(self, packages):
 		'''
@@ -170,11 +170,21 @@ setuptools.setup(
 
 					self.data['dependencies'].append(package)
 
-			# Save the dependencies in a file
-			with open('ppm.json', 'w') as f:
+			# Save the new dependencies
+			self.save()
+	
+	def remove(self, package_name):
 
-				f.write(json.dumps(self.data, indent=4))
-				f.close()
+		if package_name in self.data['dependencies']:
+
+			self.data['dependencies'].remove(package_name)
+
+			os.system(f'./python_modules/bin/pip uninstall {package_name}')
+			self.save()
+
+		else:
+
+			print('Dependencie not found')
 	
 	def execute_script(self, script):
 		'''
@@ -233,6 +243,10 @@ if __name__ == '__main__':
 			elif sys.argv[1] == 'gen':
 
 				ppm.gen(sys.argv[2])
+
+			elif sys.argv[1] == 'remove':
+
+				ppm.remove(sys.argv[2])
 					
 	else:
 
