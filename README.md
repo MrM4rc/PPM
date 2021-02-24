@@ -12,15 +12,15 @@
 python ppm.py init
 ```
 
-<p>a ppm.json json file will be created and all project settings will be stored</p>
+<p>A ppm.json file will be created and all project settings will be stored.</p>
 
-<p>adding new dependencies</p>
+<p>Adding new dependencies</p>
 
 ```bash
 python ppm.py add flake8 jedi PyFiFinder
 ```
 <p>all dependencies installed will be in ppm.json</p>
-<p>if python_modules is deleted, enough run ppm install to all dependencies be installed.</p>
+<p>if python_modules is deleted, just run "ppm install" and all dependencies will be installed.</p>
 
 ### how to run your scripts?
 
