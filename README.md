@@ -62,7 +62,7 @@ ppm start
 
 ## generating setup and requirements files
 
-<p>Using the ppm is possible generate requirements.txt and setup.py files of automatic may.</p>
+<p>Using the ppm is possible generate requirements.txt and setup.py files in an automatic way.</p>
 
 ```bash
 ppm gen req
